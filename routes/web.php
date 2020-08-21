@@ -1,7 +1,6 @@
 <?php
 
 /** @var \Laravel\Lumen\Routing\Router $router */
-use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,10 +19,33 @@ $router->get('/', function () use ($router) {
 
 
 $router->group([
-    'prefix' => 'auth'
-], function ($router) {
-    $router->post('login', 'AuthController@login');
-    $router->post('logout', 'AuthController@logout');
-    $router->post('refresh', 'AuthController@refresh');
-    $router->post('me', 'AuthController@me');
+    'prefix' => 'api'
+], function($router){
+
+    // auth routes
+    $router->group([
+        'prefix' => 'auth'
+    ], function ($router) {
+        $router->post('login', 'AuthController@login');
+        $router->post('logout', 'AuthController@logout');
+        $router->post('refresh', 'AuthController@refresh');
+        $router->post('me', 'AuthController@me');
+    });
+
+    // single user routes
+    $router->group([
+        'prefix' => 'user'
+    ], function ($router) {
+        $router->post('create', 'UserController@save');
+        $router->post('edit', 'UserController@save');
+        $router->post('delete', 'UserController@delete');
+        $router->get('get/{id}', 'UserController@getById');
+    });
+
+    // user collection routes
+    $router->group([
+        'prefix' => 'users'
+    ], function ($router) {
+        $router->get('get', 'UserController@getAll');
+    });
 });
