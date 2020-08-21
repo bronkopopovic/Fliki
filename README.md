@@ -1,7 +1,7 @@
 # Fliki
 
 A flat-file, headless, API-driven Wiki application.
-The only exception the the flat-file paradigm is the SQLite database for storing users. (May be replaced with an Eloquent filesystem driver)
+The only exception to the flat-file paradigm is the SQLite database for storing users. (May be replaced with an Eloquent filesystem driver)
 
 ## Installation
 
