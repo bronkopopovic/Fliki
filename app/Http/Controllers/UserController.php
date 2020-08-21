@@ -27,7 +27,7 @@ class UserController extends Controller
     public function getById($id)
     {
         $user = User::where('id', $id)->first()->toArray();
-        return json_encode($user);
+        return response()->json($user);
     }
 
     /**
@@ -38,7 +38,7 @@ class UserController extends Controller
     public function getAll()
     {
         $users = User::all()->toArray();
-        return json_encode($users);
+        return response()->json($users);
     }
 
     /**
@@ -59,11 +59,11 @@ class UserController extends Controller
         $user->email = $data['email'];
         $user->password = Hash::make($data['password']);
         $user->save();
-        $return = [
+        $response = [
             'message' => 'User saved',
             'id' => $user->id
         ];
-        return json_encode($return);
+        return response()->json($response);
     }
 
     /**
@@ -76,9 +76,9 @@ class UserController extends Controller
         $data = request(['id']);
         $user = User::where('id', $data['id'])->first();
         $user->delete();
-        $return = [
+        $response = [
             'message' => 'User deleted'
         ];
-        return json_encode($return);
+        return response()->json($response);
     }
 }
