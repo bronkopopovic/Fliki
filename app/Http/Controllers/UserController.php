@@ -33,8 +33,6 @@ class UserController extends Controller
     /**
      * Get all users.
      *
-     * @param string $id
-     *
      * @return string
      */
     public function getAll()
