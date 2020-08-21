@@ -15,6 +15,11 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
+        $this->middleware('admin', ['except' => [
+            'getById',
+            'getAll',
+            'updatePassword'
+        ]]);
     }
 
     /**
@@ -42,13 +47,32 @@ class UserController extends Controller
     }
 
     /**
+     * Update password.
+     *
+     * @return string
+     */
+    public function updatePassword()
+    {
+        $data = request(['id', 'old', 'new']);
+        $user = User::where('id', $data['id'])->first();
+        if(Hash::check($data['old'], $user->password)){
+            $user->password = Hash::make($data['new']);
+            $user->save();
+            return response()->json(['message' => 'Password updated']);
+        }
+        else {
+            return response()->json(['error' => 'Old password does not match'], 401);
+        }
+    }
+
+    /**
      * Create a new user.
      *
      * @return string
      */
     public function save()
     {
-        $data = request(['id', 'email', 'name', 'password']);
+        $data = request(['id', 'email', 'name', 'password', 'is_admin']);
         if(array_key_exists('id', $data)){
             $user = User::where('id', $data['id'])->first();
         }
@@ -58,16 +82,16 @@ class UserController extends Controller
         $user->name = $data['name'];
         $user->email = $data['email'];
         $user->password = Hash::make($data['password']);
+        $user->is_admin = $data['is_admin'];
         $user->save();
-        $response = [
+        return response()->json([
             'message' => 'User saved',
             'id' => $user->id
-        ];
-        return response()->json($response);
+        ]);
     }
 
     /**
-     * Delete a new user.
+     * Delete a user.
      *
      * @return string
      */
@@ -76,9 +100,6 @@ class UserController extends Controller
         $data = request(['id']);
         $user = User::where('id', $data['id'])->first();
         $user->delete();
-        $response = [
-            'message' => 'User deleted'
-        ];
-        return response()->json($response);
+        return response()->json(['message' => 'User deleted']);
     }
 }

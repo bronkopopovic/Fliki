@@ -39,6 +39,7 @@ $router->group([
         $router->post('create', 'UserController@save');
         $router->post('edit', 'UserController@save');
         $router->post('delete', 'UserController@delete');
+        $router->post('password', 'UserController@updatePassword');
         $router->get('get/{id}', 'UserController@getById');
     });
 
