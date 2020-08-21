@@ -15,12 +15,12 @@ $ composer install
 $ cp .env.example .env
 ```
 
-- If you don't have an existint Fliki database, create a new one:
+- If you don't have an existing Fliki database, create a new one:
 ```
 $ touch /database/database.sqlite
 ```
 
-- If you don't have an existing auth secret in your .env create a new one:
+- If you don't have an existing auth secret in your .env ("JWT_SECRET") create a new one:
 ```
 $ php artisan jwt:secret
 ```
@@ -30,7 +30,7 @@ $ php artisan jwt:secret
 $ php artisan migrate
 ```
 
-- If this is a fresh database, run the seeder. This will create a new user named "admin" with the default password "admin":
+- If this is a fresh database, run the seeder. This will create a new user (name: admin, email: admin@admin.com, password: admin):
 ```
 $ php artisan db:seed
 ```
