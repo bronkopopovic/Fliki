@@ -1,6 +1,6 @@
 # Fliki
 
-A flat-file, headless, API-driven Wiki application build with Laravel Lumen.
+A flat-file, headless, API-driven Wiki application built with [Laravel Lumen](https://lumen.laravel.com).
 The only exception to the flat-file paradigm is the SQLite database for storing users. (May be replaced with an Eloquent filesystem driver)
 
 ## Installation
