@@ -47,6 +47,16 @@ class Page
     }
 
     /**
+     * get a page.
+     *
+     * @return void
+     */
+    public static function get($path)
+    {
+        return Fly::read($path);
+    }
+
+    /**
      * Save a page.
      *
      * @return void

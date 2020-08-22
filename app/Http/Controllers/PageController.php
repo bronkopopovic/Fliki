@@ -18,6 +18,21 @@ class PageController extends Controller
     }
 
     /**
+     * Get a page.
+     *
+     * @return string
+     */
+    public function get()
+    {
+        $data = request(['path']);
+        $path = explode('/', $data['path']);
+        return response()->json([
+            'title' => str_replace('.md', '', end($path)),
+            'content' => Page::get($data['path'])
+        ]);
+    }
+
+    /**
      * Save a page.
      *
      * @param Request $request

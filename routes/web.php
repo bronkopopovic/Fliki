@@ -55,6 +55,7 @@ $router->group([
         'prefix' => 'page'
     ], function ($router) {
         $router->post('create', 'PageController@save');
+        $router->get('/', 'PageController@get');
         $router->get('tree', 'PageController@getTree');
     });
 });
