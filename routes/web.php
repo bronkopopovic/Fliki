@@ -40,13 +40,21 @@ $router->group([
         $router->post('edit', 'UserController@save');
         $router->post('delete', 'UserController@delete');
         $router->post('password', 'UserController@updatePassword');
-        $router->get('get/{id}', 'UserController@getById');
+        $router->get('{id}', 'UserController@getById');
     });
 
     // user collection routes
     $router->group([
         'prefix' => 'users'
     ], function ($router) {
-        $router->get('get', 'UserController@getAll');
+        $router->get('/', 'UserController@getAll');
+    });
+
+    // page routes
+    $router->group([
+        'prefix' => 'page'
+    ], function ($router) {
+        $router->post('create', 'PageController@save');
+        $router->get('tree', 'PageController@getTree');
     });
 });

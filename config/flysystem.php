@@ -115,7 +115,7 @@ return [
 
         'local' => [
             'driver'     => 'local',
-            'path'       => storage_path('files'),
+            'path'       => storage_path('wiki'),
             // 'visibility' => 'public',
             // 'pirate'     => false,
             // 'eventable'  => true,

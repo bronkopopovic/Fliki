@@ -1,7 +1,10 @@
 /vendor
 /.idea
+/.vscode
 Homestead.json
 Homestead.yaml
 .env
 .phpunit.result.cache
 database.sqlite
+storage/wiki/*.md
+storage/wiki/**/*.md
