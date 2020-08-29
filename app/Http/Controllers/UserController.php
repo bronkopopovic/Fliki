@@ -31,8 +31,11 @@ class UserController extends Controller
      */
     public function getById($id)
     {
-        $user = User::where('id', $id)->first()->toArray();
-        return response()->json($user);
+        $user = User::where('id', $id)->first();
+        if($user === null){
+            return response()->json(['error' => 'User not found'], 404);
+        }
+        return response()->json($user->toArray());
     }
 
     /**
@@ -55,6 +58,9 @@ class UserController extends Controller
     {
         $data = request(['id', 'old', 'new']);
         $user = User::where('id', $data['id'])->first();
+        if($user === null){
+            return response()->json(['error' => 'User not found'], 404);
+        }
         if(Hash::check($data['old'], $user->password)){
             $user->password = Hash::make($data['new']);
             $user->save();
@@ -75,6 +81,9 @@ class UserController extends Controller
         $data = request(['id', 'email', 'name', 'password', 'is_admin']);
         if(array_key_exists('id', $data)){
             $user = User::where('id', $data['id'])->first();
+            if($user === null){
+                return response()->json(['error' => 'User not found'], 404);
+            }
         }
         else {
             $user = new User();
@@ -99,6 +108,9 @@ class UserController extends Controller
     {
         $data = request(['id']);
         $user = User::where('id', $data['id'])->first();
+        if($user === null){
+            return response()->json(['error' => 'User not found'], 404);
+        }
         $user->delete();
         return response()->json(['message' => 'User deleted']);
     }
