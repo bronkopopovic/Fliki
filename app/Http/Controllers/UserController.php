@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -54,15 +55,14 @@ class UserController extends Controller
      *
      * @return string
      */
-    public function updatePassword()
+    public function updatePassword(Request $request, $id)
     {
-        $data = request(['id', 'old', 'new']);
-        $user = User::where('id', $data['id'])->first();
+        $user = User::where('id', $id)->first();
         if($user === null){
             return response()->json(['error' => 'User not found'], 404);
         }
-        if(Hash::check($data['old'], $user->password)){
-            $user->password = Hash::make($data['new']);
+        if(Hash::check($request->input('old'), $user->password)){
+            $user->password = Hash::make($request->input('new'));
             $user->save();
             return response()->json(['message' => 'Password updated']);
         }
@@ -72,26 +72,39 @@ class UserController extends Controller
     }
 
     /**
-     * Create a new user.
+     * CReate a user.
      *
      * @return string
      */
-    public function save()
+    public function create(Request $request)
     {
-        $data = request(['id', 'email', 'name', 'password', 'is_admin']);
-        if(array_key_exists('id', $data)){
-            $user = User::where('id', $data['id'])->first();
-            if($user === null){
-                return response()->json(['error' => 'User not found'], 404);
-            }
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->input('password'));
+        $user->is_admin = $request->input('is_admin');
+        $user->save();
+        return response()->json([
+            'message' => 'User saved',
+            'id' => $user->id
+        ]);
+    }
+
+    /**
+     * Update a user.
+     *
+     * @return string
+     */
+    public function save(Request $request, $id)
+    {
+        $user = User::where('id', $id)->first();
+        if($user === null){
+            return response()->json(['error' => 'User not found'], 404);
         }
-        else {
-            $user = new User();
-        }
-        $user->name = $data['name'];
-        $user->email = $data['email'];
-        $user->password = Hash::make($data['password']);
-        $user->is_admin = $data['is_admin'];
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = Hash::make($request->input('password'));
+        $user->is_admin = $request->input('is_admin');
         $user->save();
         return response()->json([
             'message' => 'User saved',
@@ -104,10 +117,9 @@ class UserController extends Controller
      *
      * @return string
      */
-    public function delete()
+    public function delete($id)
     {
-        $data = request(['id']);
-        $user = User::where('id', $data['id'])->first();
+        $user = User::where('id', $id)->first();
         if($user === null){
             return response()->json(['error' => 'User not found'], 404);
         }

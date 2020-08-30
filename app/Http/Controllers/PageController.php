@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Page;
+use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
@@ -22,14 +22,17 @@ class PageController extends Controller
      *
      * @return string
      */
-    public function get()
+    public function get(Request $request)
     {
-        $data = request(['path']);
-        $path = explode('/', $data['path']);
-        return response()->json([
-            'title' => str_replace('.md', '', end($path)),
-            'content' => Page::get($data['path'])
-        ]);
+        $path = explode('/', $request->input('path'));
+        try{
+            return response()->json([
+                'title' => str_replace('.md', '', end($path)),
+                'content' => Page::get($request->input('path'))
+            ]);
+        } catch(\Exception $e){
+            return response()->json(['error' => 'Page not found'], 404);
+        }
     }
 
     /**
@@ -41,13 +44,10 @@ class PageController extends Controller
      */
     public function save(Request $request)
     {
-        $content = $request->input('content');
-        $title = $request->input('title');
-        $path = $request->input('path');
         $page = new Page();
-        $page->path = $path;
-        $page->title = $title;
-        $page->content = $content;
+        $page->path = $request->input('path');
+        $page->title = $request->input('title');
+        $page->content = $request->input('content');
         $page->save();
         return response()->json(['message' => 'Page saved']);
     }

@@ -36,11 +36,11 @@ $router->group([
     $router->group([
         'prefix' => 'user'
     ], function ($router) {
-        $router->post('create', 'UserController@save');
-        $router->post('edit', 'UserController@save');
-        $router->post('delete', 'UserController@delete');
-        $router->post('password', 'UserController@updatePassword');
         $router->get('{id}', 'UserController@getById');
+        $router->post('/', 'UserController@create');
+        $router->put('{id}', 'UserController@save');
+        $router->delete('{id}', 'UserController@delete');
+        $router->post('{id}/password', 'UserController@updatePassword');
     });
 
     // user collection routes
@@ -54,7 +54,7 @@ $router->group([
     $router->group([
         'prefix' => 'page'
     ], function ($router) {
-        $router->post('create', 'PageController@save');
+        $router->post('/', 'PageController@save');
         $router->get('/', 'PageController@get');
         $router->get('tree', 'PageController@getTree');
     });

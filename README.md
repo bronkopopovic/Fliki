@@ -40,10 +40,12 @@ $ php artisan db:seed
 
 - ### Login
 #### `POST /api/auth/login`
-Query parameters:
+Body:
 ```
-email
-password
+{
+    "email": "admin@admin.com",
+    "password": "admin"
+}
 ```
 Returns:
 ```
@@ -84,16 +86,18 @@ Returns:
 ```
 
 - ### Create User
-#### `POST /api/user/create`
+#### `POST /api/user`
 ```
 Authorization: Bearer <access_token>
 ```
-Query parameters:
+Body:
 ```
-email
-password
-name
-is_admin
+{
+    "email": "admin@admin.com",
+    "password": "admin",
+    "name": "admin",
+    "is_admin": 1
+}
 ```
 Returns:
 ```
@@ -104,17 +108,18 @@ Returns:
 ```
 
 - ### Edit User
-#### `POST /api/user/edit`
+#### `PUT /api/user/:id`
 ```
 Authorization: Bearer <access_token>
 ```
-Query parameters:
+Body:
 ```
-id
-email
-password
-name
-is_admin
+{
+    "email": "admin@admin.com",
+    "password": "admin",
+    "name": "admin",
+    "is_admin": 1
+}
 ```
 Returns:
 ```
@@ -125,13 +130,9 @@ Returns:
 ```
 
 - ### Delete User
-#### `POST /api/user/delete`
+#### `DELETE /api/user/:id`
 ```
 Authorization: Bearer <access_token>
-```
-Query parameters:
-```
-id
 ```
 
 - ### Get User
@@ -194,11 +195,13 @@ Returns:
 ```
 Authorization: Bearer <access_token>
 ```
-Query parameters:
+Body:
 ```
-title
-path
-content 
+{
+    "path": "pages/test",
+    "title": "test",
+    "content": "# Title"
+}
 ```
 
 - ### Get File Tree
